@@ -11,8 +11,7 @@ A documentação da API está disponível por meio da [Coleção do Postman](./B
 ### Importante:
 
 * **Credenciais de Integração:** Para realizar as chamadas à API, será necessário possuir uma conta de empresa ativa no sistema BMA Acesso. Você precisará do **CNPJ** correspondente e de um **TokenApi (Chave de Acesso Secundária)** cadastrado para a empresa no portal administrativo.
-* **Autenticação:** As requisições são protegidas e exigem a geração prévia de um token de acesso **JWT Bearer** através do endpoint de login. Este token expira em **60 minutos**, sendo necessária sua renovação periódica pelo sistema integrador.
-* **Habilitação:** É necessário habilitar a integração externa nas configurações gerais do portal **BMA Acesso** antes de iniciar as requisições.
+* **Autenticação:** As requisições são protegidas e exigem a geração prévia de um token de acesso **JWT Bearer** através do endpoint de login. Este token expira em **60 minutos**, sendo necessária sua renovação periódica.
 * **Manual Técnico:** Leia o [Manual da Integração](./MANUAL_INTEGRACAO_BMA_v2.pdf) atentamente para compreender o fluxo detalhado das rotas, parâmetros aceitos, respostas de erro e especificações de payloads.
 * **Ambiente de Testes:** Importe e configure a coleção do Postman [BMA_Acesso_Integracao_Externa.json](./BMA_Acesso_Integracao_Externa.json) para testar os endpoints de autenticação, importação de usuários corporativos e consulta de históricos de refeição.
 
