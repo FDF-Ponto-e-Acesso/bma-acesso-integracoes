@@ -1,0 +1,300 @@
+{
+  "info": {
+    "_postman_id": "89c726bf-2d63-4425-a5cc-af0f2740dd3b",
+    "name": "BMA Acesso - Integração Externa",
+    "description": "Coleção de referência para integração de sistemas externos com o portal de refeitórios do sistema BMA Acesso.\n\n### Requisitos de Integração:\n- **Autenticação**: Padrão JWT Bearer enviado no cabeçalho HTTP (`Authorization: Bearer <token>`).\n- **Datas**: Formato obrigatório `dd/MM/yyyy HH:mm` ou `dd/MM/yyyy`.\n- **Fotos**: Transmitidas em string Base64 pura.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Autenticação",
+      "item": [
+        {
+          "name": "Login Empresa",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    var json = pm.response.json();",
+                  "    if (json && json.data) {",
+                  "        pm.collectionVariables.set(\"token\", json.data);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cnpj\": \"{{cnpj_teste}}\",\n  \"TokenApi\": \"{{token_api}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v3/Auth/Empresa",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v3",
+                "Auth",
+                "Empresa"
+              ]
+            },
+            "description": "Realiza a autenticação da empresa e retorna o token de acesso (JWT)."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Usuários do Refeitório",
+      "item": [
+        {
+          "name": "Importar Usuário Único",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nomeUsuario\": \"Carlos Andrade\",\n  \"numeroMatricula\": \"2030\",\n  \"numeroCracha\": \"2030\",\n  \"numeroCelular\": \"(47)98728-3648\",\n  \"descricaoCategoria\": \"Comum\",\n  \"codigoCentroCusto\": \"2174\",\n  \"descricaoCentroCusto\": \"Desenvolvimento\",\n  \"codigoPermissaoDiaUtil\": 1,\n  \"codigoPermissaoSabado\": 1,\n  \"codigoPermissaoDomingo\": 1,\n  \"codigoPermissaoFeriado\": 1,\n  \"fotoBase64\": \"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAY...\",\n  \"refeicoesAcesso\": [\n    {\n      \"numeroRefeicao\": 1,\n      \"quantidadeCreditos\": 30.00,\n      \"limiteDiario\": 1.00\n    },\n    {\n      \"numeroRefeicao\": 2,\n      \"quantidadeCreditos\": 60.00,\n      \"limiteDiario\": 2.00\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v3/UsuarioRefeitorio/importar",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v3",
+                "UsuarioRefeitorio",
+                "importar"
+              ]
+            },
+            "description": "Cadastra ou atualiza os dados cadastrais, permissões e créditos de um usuário."
+          },
+          "response": []
+        },
+        {
+          "name": "Importar Usuários em Lote",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"usuarios\": [\n    {\n      \"nomeUsuario\": \"Ana Souza\",\n      \"numeroMatricula\": \"2031\",\n      \"numeroCracha\": \"2031\",\n      \"numeroCelular\": \"(47)98888-1111\",\n      \"descricaoCategoria\": \"Comum\",\n      \"codigoCentroCusto\": \"2174\",\n      \"descricaoCentroCusto\": \"Desenvolvimento\",\n      \"codigoPermissaoDiaUtil\": 1,\n      \"codigoPermissaoSabado\": 1,\n      \"codigoPermissaoDomingo\": 1,\n      \"codigoPermissaoFeriado\": 1,\n      \"fotoBase64\": \"\",\n      \"refeicoesAcesso\": [\n        {\n          \"numeroRefeicao\": 1,\n          \"quantidadeCreditos\": 15.00,\n          \"limiteDiario\": 1.00\n        }\n      ]\n    },\n    {\n      \"nomeUsuario\": \"Carlos Lima\",\n      \"numeroMatricula\": \"2032\",\n      \"numeroCracha\": \"2032\",\n      \"numeroCelular\": \"(47)98888-2222\",\n      \"descricaoCategoria\": \"Comum\",\n      \"codigoCentroCusto\": \"2174\",\n      \"descricaoCentroCusto\": \"Desenvolvimento\",\n      \"codigoPermissaoDiaUtil\": 1,\n      \"codigoPermissaoSabado\": 1,\n      \"codigoPermissaoDomingo\": 1,\n      \"codigoPermissaoFeriado\": 1,\n      \"fotoBase64\": \"\",\n      \"refeicoesAcesso\": [\n        {\n          \"numeroRefeicao\": 1,\n          \"quantidadeCreditos\": 20.00,\n          \"limiteDiario\": 1.00\n        }\n      ]\n    },\n    {\n      \"nomeUsuario\": \"Mariana Costa\",\n      \"numeroMatricula\": \"2033\",\n      \"numeroCracha\": \"2033\",\n      \"numeroCelular\": \"(47)98888-3333\",\n      \"descricaoCategoria\": \"Comum\",\n      \"codigoCentroCusto\": \"2174\",\n      \"descricaoCentroCusto\": \"Desenvolvimento\",\n      \"codigoPermissaoDiaUtil\": 1,\n      \"codigoPermissaoSabado\": 1,\n      \"codigoPermissaoDomingo\": 1,\n      \"codigoPermissaoFeriado\": 1,\n      \"fotoBase64\": \"\",\n      \"refeicoesAcesso\": [\n        {\n          \"numeroRefeicao\": 1,\n          \"quantidadeCreditos\": 25.00,\n          \"limiteDiario\": 1.00\n        }\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v3/UsuarioRefeitorio/importar/lista",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v3",
+                "UsuarioRefeitorio",
+                "importar",
+                "lista"
+              ]
+            },
+            "description": "Cadastra ou atualiza múltiplos usuários em um único lote."
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar Usuários Ativos",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v3/UsuarioRefeitorio/ativos?pagina=1&tamanhoPagina=10&nome=&cracha=&matricula=",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v3",
+                "UsuarioRefeitorio",
+                "ativos"
+              ],
+              "query": [
+                {
+                  "key": "pagina",
+                  "value": "1"
+                },
+                {
+                  "key": "tamanhoPagina",
+                  "value": "10"
+                },
+                {
+                  "key": "nome",
+                  "value": "",
+                  "description": "Filtro opcional por nome parcial."
+                },
+                {
+                  "key": "cracha",
+                  "value": "",
+                  "description": "Filtro opcional por número de crachá exato."
+                },
+                {
+                  "key": "matricula",
+                  "value": "",
+                  "description": "Filtro opcional por matrícula exata."
+                }
+              ]
+            },
+            "description": "Retorna uma lista paginada e filtrada de usuários ativos no refeitório."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Histórico de Consumos",
+      "item": [
+        {
+          "name": "Buscar Histórico de Refeições",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v3/HistoricoRefeicao?DataInicial={{data_inicial}}&DataFinal={{data_final}}&Pagina={{pagina}}&TamanhoPagina={{tamanho_pagina}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v3",
+                "HistoricoRefeicao"
+              ],
+              "query": [
+                {
+                  "key": "DataInicial",
+                  "value": "{{data_inicial}}",
+                  "description": "Data inicial da consulta (Formato: dd/MM/yyyy HH:mm)."
+                },
+                {
+                  "key": "DataFinal",
+                  "value": "{{data_final}}",
+                  "description": "Data final da consulta (Formato: dd/MM/yyyy HH:mm)."
+                },
+                {
+                  "key": "Pagina",
+                  "value": "{{pagina}}"
+                },
+                {
+                  "key": "TamanhoPagina",
+                  "value": "{{tamanho_pagina}}"
+                }
+              ]
+            },
+            "description": "Retorna o histórico paginado de passagens e consumos de crachá no refeitório corporativo."
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000",
+      "type": "string"
+    },
+    {
+      "key": "cnpj_teste",
+      "value": "54.774.445/0001-58",
+      "type": "string"
+    },
+    {
+      "key": "token_api",
+      "value": "7053d6aaa435426e9327ae5f67051772",
+      "type": "string"
+    },
+    {
+      "key": "data_inicial",
+      "value": "01/09/2025 00:00",
+      "type": "string"
+    },
+    {
+      "key": "data_final",
+      "value": "30/09/2025 23:59",
+      "type": "string"
+    },
+    {
+      "key": "pagina",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "tamanho_pagina",
+      "value": "10",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}
