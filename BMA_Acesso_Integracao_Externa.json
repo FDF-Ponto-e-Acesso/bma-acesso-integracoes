@@ -7,6 +7,26 @@
   },
   "item": [
     {
+      "name": "Health Check v3",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/v3/Health",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v3",
+            "Health"
+          ]
+        },
+        "description": "Verifica a disponibilidade da API e a conectividade em tempo real com o banco de dados."
+      },
+      "response": []
+    },
+    {
       "name": "Autenticação",
       "item": [
         {
