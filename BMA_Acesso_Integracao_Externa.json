@@ -52,7 +52,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"cnpj\": \"{{cnpj_teste}}\",\n  \"TokenApi\": \"{{token_api}}\"\n}",
+              "raw": "{\n  \"cnpj\": \"{{cnpj_teste}}\",\n  \"tokenApi\": \"{{token_api}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -278,7 +278,7 @@
   "variable": [
     {
       "key": "base_url",
-      "value": "http://localhost:5000",
+      "value": "https://bma-api-sandbox.evvixsistemas.com.br/refeitorio",
       "type": "string"
     },
     {
